@@ -1,13 +1,15 @@
 # Exploratory Analysis 
 
+---
+
+##Data Validation
+
+Dataset appears structurally consistent in all four tables:
 
 ### product_info Table
 
 - **Total products :** 2
 - **Billing cycles :** Annual or monthly subscription
-- **Prices :** 
-	- The monthly subscription ($125) is 25% more expensive than the annual subscription ($1,200) on a yearly basis.
-	- The annual subscription becomes more cost-effective for customers who remain subscribed for more than 10 months.	
 
 
 ### customer_cases Table
@@ -37,7 +39,13 @@
 - Each customer is associated with exactly one product
 - No records were found where cancel_date_time precedes signup_date_time
 - **Customer status: **
-	- 112485 churned customers
 	- 396447 active customers
-	
-Dataset appears structurally consistent in all four tables.
+	- 112485 churned customers
+- **signup_date_time range:** From 2017-01-01 07:55:42 to 2021-12-31 19:38:21
+- **cancel_date_time range:** From 2017-01-08 15:14:53 to 2021-12-31 21:44:10
+
+
+---
+
+
+

@@ -2,7 +2,7 @@
 
 ---
 
-##Data Validation
+## Data Validation
 
 Dataset appears structurally consistent in all four tables:
 
@@ -38,7 +38,7 @@ Dataset appears structurally consistent in all four tables:
 - The total number of customers matches the customer_info table
 - Each customer is associated with exactly one product
 - No records were found where cancel_date_time precedes signup_date_time
-- **Customer status: **
+- **Customer status :**
 	- 396447 active customers
 	- 112485 churned customers
 - **signup_date_time range:** From 2017-01-01 07:55:42 to 2021-12-31 19:38:21

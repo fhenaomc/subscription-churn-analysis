@@ -88,12 +88,20 @@ GROUP BY customer_status;
 
 SELECT 
 CASE
-WHEN cancel_date_time IS NULL THEN 'A'
-ELSE 'b'
+WHEN cancel_date_time IS NULL THEN 'churned_customer'
+ELSE 'active_customer'
 END AS customer_status,
 COUNT(customer_id) as qty
 FROM churn_project.customer_product
 GROUP BY customer_status;
 -- Customer status: 396447 active customers, 112485 churned customers
 
+SELECT MIN(signup_date_time) as older_signup_date_time,
+MAX(signup_date_time) as newer_signup_date_time
+FROM churn_project.customer_product;
+-- signup_date_time range: From 2017-01-01 07:55:42 to 2021-12-31 19:38:21
 
+SELECT MIN(cancel_date_time) as older_cancel_date_time,
+MAX(cancel_date_time) as newer_cancel_date_time
+FROM churn_project.customer_product;
+-- cancel_date_time range: From 2017-01-08 15:14:53 to 2021-12-31 21:44:10

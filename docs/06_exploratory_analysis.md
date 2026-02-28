@@ -50,46 +50,78 @@ Dataset appears structurally consistent in all four tables:
 
 ## Analytical Base
 
-
-This script consolidates customer-level information into a single, structured dataset that will serve as the foundation for all subsequent churn analysis.
+The analytical base consolidates customer-level information into a single structured dataset that serves as the foundation for all subsequent churn and retention analysis.
 
 ### Objective
 
-Build a customer-level analytical table integrating demographics, subscription lifecycle data, and product attributes, without computing aggregated metrics at this stage.
+- Construct a customer-level table integrating:
+- Demographic attributes
+- Subscription lifecycle information
+- Product characteristics
+- Explicit churn definition
+- Observed tenure within a consistent observation window
 
-### Dataset Design Principles
+No aggregated KPIs are computed at this stage. This layer focuses strictly on structural integrity and business logic clarity.
 
-- Granularity: One row per customer.
-- Scope: Customer attributes + subscription lifecycle + plan information.
-- No aggregated KPIs are calculated in this layer.
-- All business logic definitions are made explicit and reproducible.
+### Granularity and Scope
+
+- Granularity: One row per customer
+- Scope: Customer attributes + subscription lifecycle + product information
+- Primary purpose: Provide a clean and reproducible modeling-ready structure
+
+Each customer is associated with exactly one subscription product.
+
+### Churn Definition
+
+Churn is defined exclusively based on the presence of a cancel_date_time.
+
+- churn_flag = 1 → cancel_date_time IS NOT NULL
+- churn_flag = 0 → cancel_date_time IS NULL
+
+This definition is independent of customer activity (e.g., support cases).
+Subscription cancellation determines churn status, regardless of post-cancellation usage or support interactions.
+
+### Observation Window and Cutoff Logic
+
+To ensure consistent tenure measurement, a global observation cutoff is defined as:
+
+- The maximum date observed in the subscription dataset(i.e., the latest lifecycle event recorded)
+
+This cutoff is applied only to customers who have not churned.
 
 ### Observed Tenure
 
 Observed tenure is calculated as the number of days between signup_date_time and:
 
 - cancel_date_time for churned customers
-- The maximum cancel_date_time observed in the dataset for active customers
+- The global dataset cutoff for active customers
 
-Using the dataset-level maximum cancellation date as a cutoff ensures that tenure for active customers is measured within a consistent observation window. This prevents systematic underestimation of tenure for customers who have not churned.
+This approach ensures:
 
-### Plan and Pricing Information
+- Active customers are right-censored at a consistent observation point
+- Tenure comparisons between churned and active customers are structurally valid
+- The analytical base remains suitable for retention metrics and survival-style reasoning
 
-The analytical base incorporates:
+No negative tenure values were detected during validation.
+Churned customers may exhibit very short tenure values (e.g., 1 day), which are consistent with the business definition of cancellation.
 
-- product_name
-- price
-- billing_cycle
+### Structural Validation
 
-This allows segmentation of churn behavior by plan characteristics without requiring additional joins in later stages.
+The following validations were performed:
 
-### Validation Considerations
+- No duplicate customer_id values
+- One product per customer
+- No instances where cancel_date_time precedes signup_date_time
+- No negative tenure values
 
-- No duplicate customer_id values are present.
-- Each customer is associated with exactly one product.
-- No cases were detected where cancel_date_time precedes signup_date_time.
+These checks confirm structural consistency across the integrated dataset.
 
-These validations ensure internal consistency and make the analytical base suitable for churn modeling, survival analysis, and retention metrics.
+### Role Within the Project
 
-This table represents the final modeling-ready dataset. If the definitions and logic implemented here are robust, subsequent churn metrics and analytical outputs become straightforward transformations of this base.
+This analytical base represents the structural backbone of the project.
 
+All subsequent churn metrics, segmentation analyses, and behavioral variables will be derived from this dataset to ensure:
+
+- Logical consistency
+- Reproducibility
+- Alignment between business definitions and analytical outputs

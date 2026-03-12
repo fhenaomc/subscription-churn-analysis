@@ -1,8 +1,8 @@
-# Exploratory Analysis 
+# EXPLORATORY ANALYSIS
 
 ---
 
-## 01 Data Validation
+## 01 DATA VALIDATION
 
 Dataset appears structurally consistent in all four tables:
 
@@ -47,8 +47,7 @@ Dataset appears structurally consistent in all four tables:
 
 ---
 
-
-## Analytical Base
+## 02 ANALYTICAL BASE
 
 The analytical base consolidates customer-level information into a single structured dataset that serves as the foundation for all subsequent churn and retention analysis.
 
@@ -125,3 +124,113 @@ All subsequent churn metrics, segmentation analyses, and behavioral variables wi
 - Logical consistency
 - Reproducibility
 - Alignment between business definitions and analytical outputs
+
+
+---
+
+## 03 STRUCTURAL CHURN METRICS
+
+Using the analytical base, the next stage of the analysis explores structural churn patterns across the customer population.
+
+The goal of this step is to evaluate whether churn behavior varies across fundamental customer characteristics such as tenure, product type, billing cycle, demographic attributes, and signup cohorts.
+
+This stage focuses on **descriptive structural analysis** rather than predictive modeling.
+
+### Global Churn Rate
+
+The dataset contains **508932 customers**, of which **112485 have churned**, resulting in a **global churn rate of approximately 22.10%**.
+
+No churned customers were observed with zero days of tenure, indicating that churn events occur only after at least one day of subscription activity.
+
+This confirms that churn and tenure calculations behave consistently.
+
+### Tenure Distribution
+
+Customer tenure is concentrated within mid-range lifecycle stages.
+
+Most customers fall between **181 and 1080 days of tenure**, with the largest group located between **361 and 720 days**.
+
+Churned customers are also primarily distributed within these same tenure ranges, reflecting the overall distribution of customers rather than an elevated churn risk.
+
+When churn rate is evaluated within each tenure segment, a clear pattern emerges:
+
+- **0–30 days:** highest churn rate
+- **31–90 days:** second highest churn rate
+- **91–180 days:** moderate churn
+- **Beyond 180 days:** churn decreases progressively as tenure increases
+
+This suggests that the **early lifecycle stage represents the highest churn-risk period**.
+
+### Lifecycle Segmentation
+
+Based on the tenure distribution and churn behavior, tenure was regrouped into four lifecycle segments:
+
+| Segment | Tenure Range | Interpretation |
+|------|------|------|
+| A | 0–30 days | Early churn risk |
+| B | 31–180 days | Early lifecycle |
+| C | 181–1080 days | Core lifecycle |
+| D | 1081+ days | Long-term customers |
+
+The **core lifecycle segment (181–1080 days)** represents the majority of customers.
+
+Although many churn events occur in this group, this primarily reflects the concentration of customers within that tenure range rather than a higher churn probability.
+
+### Product-Level Churn
+
+Two subscription products exist in the dataset, representing **monthly and annual billing plans**.
+
+Churn rates across these products appear very similar. The monthly plan shows a slightly higher churn rate, but the difference is small and does not indicate a strong product-level effect.
+
+### Billing Cycle
+
+Billing cycle distribution varies across lifecycle stages.
+
+In early tenure segments, customers are relatively evenly distributed between monthly and annual subscriptions.
+
+As tenure increases, annual subscriptions become more common among long-term customers.
+
+Despite this shift in distribution, churn rates remain relatively similar across billing cycles within tenure segments, suggesting that billing cycle alone is not a strong driver of churn behavior.
+
+### Demographic Factors
+
+Churn behavior was also evaluated across demographic attributes.
+
+**Gender**
+
+Churn rates across genders are nearly identical within tenure segments, indicating no meaningful association between gender and churn.
+
+**Age**
+
+Customers were grouped into three age segments:
+
+- 20–40 years
+- 41–60 years
+- 61+ years
+
+Churn rates across these groups appear very similar, suggesting that age does not significantly influence churn behavior in this dataset.
+
+### Signup Cohorts
+
+Customers were grouped by signup year to evaluate cohort-level churn patterns.
+
+Churn proportions decrease for more recent cohorts, which is expected because newer cohorts have had less time to accumulate churn events within the observation window.
+
+No specific cohort exhibits an abnormal churn pattern.
+
+### Structural Findings
+
+Key observations from the structural analysis include:
+
+- The **global churn rate is approximately 22%**
+- **Tenure is the strongest structural factor associated with churn**
+- **Most churn occurs during the first 180 days after signup**
+- **Product type, gender, and age show minimal relationship with churn**
+- **Annual subscriptions become more common among long-tenure customers**
+- **Signup cohorts display stable churn patterns over time**
+
+Overall, churn dynamics in this dataset appear to be driven primarily by **subscription lifecycle behavior rather than demographic or product characteristics**.
+
+
+
+

@@ -13,6 +13,18 @@ ROUND(SUM(churn_flag) / COUNT(*) * 100,2) AS churn_rate
 FROM analytical_base;
 -- Global churn rate: 22.10%
 
+SELECT
+product_name,
+COUNT(*) AS customers,
+SUM(churn_flag) AS churned,
+ROUND(SUM(churn_flag)/COUNT(*)*100,2) AS churn_rate
+FROM analytical_base
+GROUP BY product_name
+ORDER BY churn_rate DESC;
+-- Churn rates are similar across products.
+-- The monthly subscription shows a slightly higher churn rate,
+-- but the difference is small and does not suggest a strong product effect.
+
 SELECT 
 CASE 
 WHEN observed_tenure BETWEEN 0 AND 30 THEN 'a: 0-30'
@@ -76,6 +88,29 @@ ORDER BY tenure_bucket;
 
 -- However, churn rate itself is highest in the Early Lifecycle segments (0–180 days).
 
+SELECT 
+CASE 
+WHEN signup_date_time BETWEEN '2017-01-01 00:00:00' AND '2017-12-31 23:59:59' THEN '2017'
+WHEN signup_date_time BETWEEN '2018-01-01 00:00:00' AND '2018-12-31 23:59:59' THEN '2018'
+WHEN signup_date_time BETWEEN '2019-01-01 00:00:00' AND '2019-12-31 23:59:59' THEN '2019'
+WHEN signup_date_time BETWEEN '2020-01-01 00:00:00' AND '2020-12-31 23:59:59' THEN '2020'
+WHEN signup_date_time BETWEEN '2021-01-01 00:00:00' AND '2021-12-31 23:59:59' THEN '2021'
+END AS churn_by_year,
+COUNT(*) AS subtotal,
+ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS subtotal_over_total,
+ROUND(SUM(churn_flag) * 100.0 / SUM(SUM(churn_flag)) OVER (), 2) AS churned_over_total_churned,
+ROUND(SUM(churn_flag) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS churned_over_total,
+ROUND(SUM(churn_flag) * 100.0 /  COUNT(*), 2) AS churned_over_subtotal
+FROM analytical_base
+GROUP BY churn_by_year
+ORDER BY churn_by_year;
+-- Churn rate decreases for more recent signup cohorts.
+-- This pattern is expected because newer cohorts have had less time to churn.
+
+-- No specific cohort shows an unusually high churn rate,
+-- suggesting there were no major product or market events
+-- that significantly affected customer retention. 
+
 
 SELECT 
 CASE 
@@ -93,11 +128,11 @@ ROUND(SUM(churn_flag) * 100.0 /  COUNT(*), 2) AS churned_over_subtotal
 FROM analytical_base
 GROUP BY tenure_bucket, gender
 ORDER BY tenure_bucket;
+
 -- Churn rates (churned_over_subtotal) are nearly identical across genders
 -- within each tenure segment.
 
 -- This suggests no meaningful relationship between gender and churn behavior.
-
 
 SELECT 
 CASE 
@@ -152,3 +187,5 @@ ORDER BY tenure_bucket;
 
 -- A small difference appears in the longest tenure segment, where monthly plans
 -- show slightly higher churn rates.
+
+

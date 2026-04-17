@@ -233,4 +233,116 @@ Overall, churn dynamics in this dataset appear to be driven primarily by **subsc
 
 
 
+---
+
+## 04 SUPPORT VARIABLES
+
+This stage extends the analysis by incorporating customer support interactions to evaluate whether support-related behavior is associated with churn.
+
+The objective is to determine whether variables such as:
+- Presence of support cases
+- Number of cases
+- Case timing
+- Case characteristics (reason, channel)
+
+provide meaningful signals to explain or anticipate churn behavior.
+
+### Support Coverage
+
+Approximately half of the customers have at least one support case.
+
+Customers with support cases show a slightly higher churn rate compared to those without cases.
+
+However, the difference is small, suggesting that the mere existence of support interactions is not a strong driver of churn.
+
+### Volume of Support Cases
+
+Most customers with support activity have between **1 and 3 cases**.
+
+Customers with a higher number of cases represent a very small portion of the population.
+
+A slight increase in churn rate is observed as the number of cases increases, but this effect is weak and unstable due to low sample size in higher case counts.
+
+Overall, **lifetime number of support cases does not strongly explain churn behavior**.
+
+### Case Characteristics
+
+Support cases were analyzed by **reason** and **channel**.
+
+- Churn rates remain consistent across different support reasons
+- Churn rates also remain stable across communication channels
+
+No specific support category emerges as a strong indicator of churn.
+
+### Post-Churn Activity and Data Leakage
+
+A portion of churned customers continue to generate support cases after cancellation.
+
+This confirms that churn is **not dependent on support activity**, and that customers may continue interacting with the service after cancellation (e.g., remaining subscription time).
+
+This behavior highlights the importance of avoiding **data leakage** when building churn-related variables, particularly when using support events.
+
+### Timing of Support Cases
+
+The time between the last support case and churn was analyzed.
+
+Only a small percentage of customers had support interactions close to their churn date.
+
+The distribution of time intervals between last case and churn is relatively flat, suggesting no clear pattern where recent support activity systematically precedes churn.
+
+### Support Activity Near Churn (Last 30 Days)
+
+A more targeted analysis was conducted focusing on **support activity within the last 30 days** before the reference date (churn date for churned customers, cutoff date for active customers).
+
+Key findings:
+
+- Approximately **97% of customers have no support cases in the last 30 days**
+- A very small segment (**<3%**) shows recent support activity
+
+Within this small segment:
+
+- Churn rate increases as the number of recent cases increases
+- This indicates a **localized signal of higher churn risk**
+
+However:
+
+- The segment is too small to explain overall churn patterns
+- Most churn events occur among customers without recent support activity
+
+### Interpretation
+
+Support-related variables provide **limited explanatory power at the population level**.
+
+However, an important nuance emerges:
+
+- Support activity is **not a dominant driver of churn**
+- But when recent support activity exists, it is associated with **higher churn probability**
+
+This means:
+
+- Support variables have **low coverage but meaningful signal**
+- They are useful for identifying **high-risk subsets of customers**, rather than explaining global churn behavior
+
+### Final Support Insights
+
+- Support activity alone does not explain churn for the majority of customers
+- No strong relationship is observed between churn and:
+  - Number of cases (lifetime)
+  - Case reason
+  - Case channel
+- Recent support activity (last 30 days) is associated with higher churn risk
+- However, this applies to a very small portion of the customer base
+
+### Overall Conclusion
+
+Combining structural and behavioral analysis:
+
+- Churn is primarily driven by **lifecycle dynamics (tenure)**
+- Support-related variables do not explain most churn events
+- A minority of churn cases may be associated with **recent support friction**
+
+This suggests that:
+
+- Broad churn reduction strategies should focus on **early lifecycle experience**
+- Targeted interventions can be applied to customers with **recent support activity**, as a high-risk segment
 

@@ -86,15 +86,6 @@ FROM churn_project.customer_product
 GROUP BY customer_status;
 -- Customer status: 396447 active customers, 112485 churned customers
 
-SELECT 
-CASE
-WHEN cancel_date_time IS NULL THEN 'churned_customer'
-ELSE 'active_customer'
-END AS customer_status,
-COUNT(customer_id) as qty
-FROM churn_project.customer_product
-GROUP BY customer_status;
--- Customer status: 396447 active customers, 112485 churned customers
 
 SELECT MIN(signup_date_time) as older_signup_date_time,
 MAX(signup_date_time) as newer_signup_date_time
